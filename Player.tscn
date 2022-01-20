@@ -4202,8 +4202,8 @@ margin_left = 10.0
 margin_top = 20.0
 margin_right = 380.0
 margin_bottom = 109.0
-custom_fonts/font = SubResource( 25 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 25 )
 text = "Health: 100
 Ammo: 000/000
 "
