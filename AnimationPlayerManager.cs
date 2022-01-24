@@ -27,41 +27,42 @@ public class AnimationPlayerManager : AnimationPlayer
 		{"Knife_unequip", new String[] {"Idle_unarmed"} },
 	};
 
-	Godot.Collections.Dictionary<String, double>  animation_speeds = new Godot.Collections.Dictionary<String, double>() {
+	Godot.Collections.Dictionary<String, float>  animation_speeds = new Godot.Collections.Dictionary<String, float>() {
 	{"Idle_unarmed", 1},
 
-	{"Pistol_equip", 1.4},
-	{"Pistol_fire", 1.8},
+	{"Pistol_equip", 1.4f},
+	{"Pistol_fire", 1.8f},
 	{"Pistol_idle", 1},
 	{"Pistol_reload", 1},
-	{"Pistol_unequip", 1.4},
+	{"Pistol_unequip", 1.4f},
 
 	{"Rifle_equip", 2},
 	{"Rifle_fire", 6},
 	{"Rifle_idle", 1},
-	{"Rifle_reload", 1.45},
+	{"Rifle_reload", 1.45f},
 	{"Rifle_unequip", 2},
 
 	{"Knife_equip", 1},
-	{"Knife_fire", 1.35},
+	{"Knife_fire", 1.35f},
 	{"Knife_idle", 1},
 	{"Knife_unequip", 1}
 };
 
 	string currentState;
+	FuncRef callbackFunction;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		SetAnimation("Idle_unarmed");
-		
+		Connect("animation_finished", this, "animation_ended");
 	}
 	
 	private bool SetAnimation(string animationName)
 	{
 		if (animationName == currentState)
 		{
-			GD.Print("AnimationPlayer_Manager.gd -- WARNING: animation is already ", animationName);
+			GD.Print("AnimationPlayerManager.cs -- WARNING: animation is already ", animationName);
 			return true;
 		}
 		
@@ -70,9 +71,75 @@ public class AnimationPlayerManager : AnimationPlayer
 			if (currentState != null)
 			{
 				var possibleAnimations = states[currentState];
+
+				if (Array.Exists(possibleAnimations, element => element == animationName))
+				{
+					currentState = animationName;
+					Play(animationName, -1, animation_speeds[animationName]);
+					return true;
+				}
+				else
+				{
+					GD.Print("AnimationPlayer_Manager.gd -- WARNING: Cannot change to ", animationName, " from ", currentState);
+					return false;
+				}
+			}
+			else
+			{
+				currentState = animationName;
+				Play(animationName, -1, animation_speeds[animationName]);
+				return true;
 			}
 		}
+		return false;
 	}
+
+	void AnimationEnded(string animationName)
+	{
+		// UNARMED transitions
+		if (currentState == "Idle_unarmed")
+			return;
+		// KNIFE transitions
+		else if (currentState == "Knife_equip")
+			SetAnimation("Knife_idle");
+		else if (currentState == "Knife_idle")
+			return;
+		else if (currentState == "Knife_fire")
+			SetAnimation("Knife_idle");
+		else if (currentState == "Knife_unequip")
+			SetAnimation("Idle_unarmed");
+		// PISTOL transitions
+		else if (currentState == "Pistol_equip")
+			SetAnimation("Pistol_idle");
+		else if (currentState == "Pistol_idle")
+			return;
+		else if (currentState == "Pistol_fire")
+			SetAnimation("Pistol_idle");
+		else if (currentState == "Pistol_unequip")
+			SetAnimation("Idle_unarmed");
+		else if (currentState == "Pistol_reload")
+			SetAnimation("Pistol_idle");
+		// RIFLE transitions
+		else if (currentState == "Rifle_equip")
+			SetAnimation("Rifle_idle");
+		else if (currentState == "Rifle_idle")
+			return;
+		else if (currentState == "Rifle_fire")
+			SetAnimation("Rifle_idle");
+		else if (currentState == "Rifle_unequip")
+			SetAnimation("Idle_unarmed");
+		else if (currentState == "Rifle_reload")
+			SetAnimation("Rifle_idle");
+	}
+
+	public void AnimationCallback()
+	{
+		if (callbackFunction == null)
+			GD.Print("AnimationPlayer_Manager.gd -- WARNING: No callback function for the animation to call!");
+		else
+			callbackFunction.CallFunc();
+	}
+
 
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.
 //  public override void _Process(float delta)
