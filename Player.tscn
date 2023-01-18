@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://assets/Colors.material" type="Material" id=1]
 [ext_resource path="res://assets/Emission.material" type="Material" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://assets/Titillium-Regular.otf" type="DynamicFontData" id=8]
 [ext_resource path="res://Player.cs" type="Script" id=9]
 [ext_resource path="res://AnimationPlayerManager.cs" type="Script" id=10]
+[ext_resource path="res://WeaponPistol.cs" type="Script" id=11]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 1.2
@@ -4110,6 +4111,7 @@ shape = SubResource( 22 )
 
 [node name="Pistol_Point" type="Spatial" parent="Rotation_Helper/Gun_Fire_Points"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.436506, 11.3604, 4.77607 )
+script = ExtResource( 11 )
 
 [node name="Gun_Aim_Point" type="Spatial" parent="Rotation_Helper"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.307539, 20.0487 )
