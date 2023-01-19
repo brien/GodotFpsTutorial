@@ -23,12 +23,12 @@ public class WeaponPistol : Spatial
 
     public void FireWeapon()
     {
-        var clone = bullet_scene.Instance();
+        BulletScript clone = (BulletScript)bullet_scene.Instance();
         var scene_root = GetTree().Root.GetChildren()[0];
         AddChild(clone);
 
-        clone. = self.global_transform;
-        clone.scale = Vector3(4, 4, 4);
+        clone.GlobalTransform = this.GlobalTransform;
+        clone.Scale = new Vector3(4, 4, 4);
         clone.BULLET_DAMAGE = DAMAGE;
     }
 

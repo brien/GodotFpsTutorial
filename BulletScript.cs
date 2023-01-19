@@ -6,8 +6,9 @@ public class BulletScript : Spatial
     // Declare member variables here. Examples:
     // private int a = 2;
     // private string b = "text";
-    private float BULLET_SPEED = 70;
-    private float BULLET_DAMAGE = 15;
+    [Export]
+    public float BULLET_SPEED = 70;
+    public float BULLET_DAMAGE = 15;
 
     private const float KILL_TIMER = 4;
     private float timer = 0;
@@ -40,7 +41,7 @@ public class BulletScript : Spatial
         {
             if (body is Player player)
             {
-                player.BulletHit(BULLET_DAMAGE, GlobalTransform);
+                // player.BulletHit(BULLET_DAMAGE, GlobalTransform);
             }
         }
 
