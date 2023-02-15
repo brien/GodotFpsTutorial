@@ -32,6 +32,20 @@ public class WeaponPistol : Spatial
         clone.BULLET_DAMAGE = DAMAGE;
     }
 
+    public bool EquipWeapon()
+    {
+        if (player_node.AnimationPlayerManager.currentState == IDLE_ANIM_NAME)
+        {
+            is_weapon_enabled = true;
+            return true;
+        }
+        if (player_node.AnimationPlayerManager.currentState == "Idle_unarmed")
+        {
+            player_node.AnimationPLayerManager.SetAnimation("Knife_equip");
+        }
+        return false;
+    }
+
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.
 //  public override void _Process(float delta)
 //  {

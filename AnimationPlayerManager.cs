@@ -48,7 +48,7 @@ public class AnimationPlayerManager : AnimationPlayer
 	{"Knife_unequip", 1}
 };
 
-	string currentState;
+	public string currentState;
 	FuncRef callbackFunction;
 
 	// Called when the node enters the scene tree for the first time.
