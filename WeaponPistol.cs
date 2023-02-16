@@ -46,6 +46,23 @@ public class WeaponPistol : Spatial
         return false;
     }
 
+    public bool UnequipWeapon()
+    {
+        if (player_node.AnimationPlayerManager.currentState == IDLE_ANIM_NAME && player_node.AnimationPlayerManager.currentState != "Pistol_unequip")
+        {
+            player_node.AnimationPLayerManager.SetAnimation("Pistol_unequip");
+        }
+        if (player_node.AnimationPlayerManager.currentState == "Idle_unarmed")
+        {
+            is_weapon_enabled = false;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.
 //  public override void _Process(float delta)
 //  {
